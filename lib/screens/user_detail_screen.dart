@@ -21,26 +21,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
     taskBox = Hive.box<TaskModel>('tasks');
   }
 
-  void _editTask(TaskModel task){
-    final titleController = TextEditingController(text: task.title);
-    
-    showDialog(context: context, builder: (context)=>AlertDialog(
-      title: const Text("Edit Task"),
-      content: TextField(
-        controller: titleController,
-        decoration: const InputDecoration(hintText: 'Task Title'),
-      ),
-      actions: [
-        TextButton(onPressed: ()=> Navigator.pop(context), child: const Text('cancel')),
-        ElevatedButton(onPressed: (){
-          final index = taskBox.values.toList().indexOf(task);
-          taskBox.putAt(index, TaskModel(userId: task.userId, title: titleController.text, createdAt: task.createdAt));
-          Navigator.pop(context);
-          setState(() {});
-        }, child: const Text('save'))
-      ],
-    ));
-  }
+
   void _deleteTask(TaskModel task) {
     final index = taskBox.values.toList().indexOf(task);
     taskBox.deleteAt(index);
@@ -78,9 +59,6 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          IconButton(onPressed: () {
-                          _editTask(task);},
-                         icon: const Icon(Icons.edit, color: Colors.blue),),
                           IconButton(
                             icon: const Icon(Icons.delete, color: Colors.red),
                             onPressed: () {
@@ -138,3 +116,5 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
     );
   }
 }
+
+
